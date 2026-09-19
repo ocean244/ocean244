@@ -7,11 +7,12 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.config import config
 from src.logger import logger
+from src.server import run_server
 
 def main():
-    logger.info(f"Uruchamianie {config.APP_NAME} na porcie {config.PORT} [{config.APP_ENV}]")
-    logger.info("Modul konfiguracyjny i silnik logowania zaladowany pomyslnie.")
-    logger.info("Status operacyjny: OK (100% sprawnosci)")
+    logger.info(f"Inicjalizacja {config.APP_NAME} [{config.APP_ENV}]...")
+    logger.info("Gotowo operacyjna 100%. Uruchamianie usygi...")
+    run_server()
 
 if __name__ == "__main__":
     main()
