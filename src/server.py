@@ -10,29 +10,24 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from src.config import config
 from src.logger import logger
+from src.router import APIRouter
 
 class CoreHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == "/health" or self.path == "/":
-            response = {
-                "status": "OK",
-                "app_name": config.APP_NAME,
-                "environment": config.APP_ENV,
-                "port": config.PORT
-            }
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps(response).encode("utf-8"))
-        else:
-            self.send_response(404)
-            self.end_headers()
+        status_code, response_data = APIRouter.handle_request(self.path)
+        
+        self.send_response(status_code)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.end_headers()
+        self.wfile.write(json.dumps(response_data, indent=2).encode("utf-8"))
 
     def log_message(self, format, *args):
-        logger.info(f"HTTP Request: {self.address_string()} - {format % args}")
+        logger.info(f"HTTP {self.command} {self.path} - {self.address_string()} - {format % args}")
 
 def run_server():
     handler = CoreHTTPRequestHandler
+    socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", config.PORT), handler) as httpd:
         logger.info(f"Serwer HTTP uruchomiony na porcie {config.PORT} [http://localhost:{config.PORT}/health]")
         try:
