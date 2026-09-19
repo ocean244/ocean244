@@ -1,0 +1,23 @@
+﻿# System & Windows
+Desktop.ini
+Thumbs.db
+*.tmp
+
+# Secrets & Configs
+.env
+*.env
+secrets.json
+*.key
+*.pem
+
+# IDE & Editors
+.vscode/
+.idea/
+
+# Logs & Runtimes
+*.log
+node_modules/
+__pycache__/
+venv/
+dist/
+build/
