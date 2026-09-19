@@ -2,9 +2,10 @@
 from pathlib import Path
 
 class Config:
-    def __init__(self, env_path: str = ".env"):
-        self.env_path = Path(env_path)
-        self_data = {}
+    def __init__(self):
+        self.root_dir = Path(__file__).resolve().parent.parent
+        self.env_path = self.root_dir / ".env"
+        
         if self.env_path.exists():
             with open(self.env_path, "r", encoding="utf-8") as f:
                 for line in f:

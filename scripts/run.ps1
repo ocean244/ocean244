@@ -1,19 +1,17 @@
 ﻿# Skrypt orkiestracyjny ocean244
 $ErrorActionPreference = "Stop"
 
-Write-Host "=== [ocean244] Uruchamianie rodowiska produkcyjnego ===" -ForegroundColor Cyan
+Write-Host "=== [ocean244] Uruchamianie srodowiska produkcyjnego ===" -ForegroundColor Cyan
 Write-Host "Lokalizacja: $(Get-Location)" -ForegroundColor Gray
 
-# Sprawdzenie wariantu Python
 $pythonCmd = Get-Command python -ErrorAction SilentlyContinue
 if ($pythonCmd) {
     Write-Host "[+] Wykryto interpreter Python: $($pythonCmd.Source)" -ForegroundColor Green
-    python src\main.py
+    python -m src.main
 } else {
-    Write-Host "[!] Brak binarnego interpretera Python w PATH. Weryfikacja struktury..." -ForegroundColor Yellow
+    Write-Host "[!] Brak binarnego interpretera Python w PATH." -ForegroundColor Yellow
 }
 
-# Sprawdzenie statusu Git
 $gitStatus = git status --porcelain
 if ($gitStatus) {
     Write-Host "[!] Wykryto zmiany do zatwierdzenia." -ForegroundColor Yellow
@@ -21,4 +19,4 @@ if ($gitStatus) {
     Write-Host "[+] Repozytorium zsynchronizowane i czyste." -ForegroundColor Green
 }
 
-Write-Host "=== [ocean244] Egzekucja zakoczona sukcesem ===" -ForegroundColor Green
+Write-Host "=== [ocean244] Egzekucja zakonczona sukcesem ===" -ForegroundColor Green
